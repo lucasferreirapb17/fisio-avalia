@@ -19,7 +19,7 @@
 
 <body>
 
-    <button class="btn-imprimir" onclick="gerarPDF()">
+    <button class="btn-imprimir" onclick="gerarPDF('avaliacao-mmii.pdf')">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" />
@@ -207,30 +207,10 @@
 
     </div> <!-- Fim folha-prontuario -->
 
-    <script>
-        // Função para ajustar altura dos textareas dinamicamente
-        function autoResize(textarea) {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-        }
-
-        // Função de Geração do PDF
-        function gerarPDF() {
-            // Força atualização da altura antes do recorte para o PDF
-            document.querySelectorAll('textarea').forEach(el => autoResize(el));
-
-            const elemento = document.getElementById('folha-prontuario');
-            const opcoes = {
-                margin: [0, 0, 0, 0],
-                filename: 'Avaliacao_Alta_Performance.pdf',
-                image: { type: 'jpeg', quality: 1.0 },
-                html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opcoes).from(elemento).save();
-        }
-    </script>
+    <!-- Gerador de PDF -->
+    <script src="../src/js/form-utils.js"></script>
+    <script src="../src/js/pdf.js"></script>
 </body>
+
 
 </html>

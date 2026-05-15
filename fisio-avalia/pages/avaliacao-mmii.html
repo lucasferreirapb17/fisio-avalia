@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário de Alta Performance</title>
+    
+    <!-- Biblioteca para gerar o PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Fonte Moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0f172a;       /* Slate Dark - Tom robusto como ferro/ardósia */
+            --accent: #2563eb;        /* Azul esportivo vibrante */
+            --bg-page: #f8fafc;       /* Fundo da tela */
+            --bg-paper: #ffffff;      /* Fundo da folha (branco) */
+            --input-bg: #f1f5f9;      /* Fundo cinza super claro para os campos */
+            --border: #e2e8f0;        /* Bordas suaves */
+            --text-main: #334155;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* Botão Moderno */
+        .btn-imprimir {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-imprimir:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Container A4 Moderno */
+        #folha-prontuario {
+            background-color: var(--bg-paper);
+            width: 210mm;
+            min-height: 297mm;
+            padding: 18mm 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        /* Cabeçalho Limpo e Profissional */
+        .cabecalho-doc {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .cabecalho-doc .titulo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .cabecalho-doc .titulo p {
+            font-size: 11px;
+            margin: 0;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .marca-clinica {
+            text-align: right;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* Títulos de Seção */
+        .section-header {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 25px 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--border);
+        }
+
+        /* Grid de Campos */
+        .grid-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .field-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        /* Inputs Modernos */
+        .field-input {
+            background-color: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            padding: 10px 12px;
+            box-sizing: border-box;
+            color: var(--primary);
+            transition: all 0.2s;
+            resize: none;
+            overflow: hidden;
+        }
+        
+        .field-input:focus {
+            outline: none;
+            background-color: #fff;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea.field-input { min-height: 44px; }
+
+        /* Estilo da EVA */
+        .eva-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: var(--input-bg);
+            padding: 10px 15px;
+            border-radius: 6px;
+        }
+        .eva-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .eva-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 4px;
+            font-family: inherit;
+        }
+
+        /* Estilo dos Clusters (Checkboxes Modernas) */
+        .clusters-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .cluster-box {
+            background: #fff;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+        .cluster-box strong {
+            display: block;
+            font-size: 12px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        .cluster-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        
+        /* Checkbox Customizada */
+        .cluster-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background-color: #fff;
+            transition: all 0.2s;
+        }
+        .cluster-item input[type="checkbox"]:checked {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+        .cluster-item input[type="checkbox"]:checked::after {
+            content: '✔';
+            position: absolute;
+            color: white;
+            font-size: 10px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Rodapé de Assinaturas Minimalista */
+        .assinaturas-row {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .assinatura-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .linha-ass {
+            width: 80%;
+            border-top: 1px solid var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .assinatura-texto {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Utilitários */
+        .w-10 { flex: 0.1 !important; }
+        .w-20 { flex: 0.2 !important; }
+        .w-30 { flex: 0.3 !important; }
+        .w-70 { flex: 0.7 !important; }
+        .w-80 { flex: 0.8 !important; }
+    </style>
+</head>
+<body>
+
+    <button class="btn-imprimir" onclick="gerarPDF()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+        Gerar Relatório de Avaliação
+    </button>
+
+    <div id="folha-prontuario">
+        
+        <div class="cabecalho-doc">
+            <div class="titulo">
+                <h1>Avaliação Fisioterapêutica</h1>
+                <p>Traumato-Ortopedia & Performance</p>
+            </div>
+            <div class="marca-clinica">
+                Res. COFFITO nº 414/2012
+            </div>
+        </div>
+
+        <!-- 1. IDENTIFICAÇÃO DO PACIENTE -->
+        <div class="section-header">1. Identificação do Paciente</div>
+        <div class="grid-row">
+            <div class="field w-80">
+                <span class="field-label">Nome Completo</span>
+                <input type="text" class="field-input" placeholder="Ex: João da Silva">
+            </div>
+            <div class="field w-20">
+                <span class="field-label">Idade</span>
+                <input type="text" class="field-input" placeholder="Anos">
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Estado Civil</span>
+                <input type="text" class="field-input">
+            </div>
+            <div class="field">
+                <span class="field-label">Gênero</span>
+                <input type="text" class="field-input">
+            </div>
+            <div class="field">
+                <span class="field-label">Profissão / Esporte</span>
+                <input type="text" class="field-input">
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Telefone / Contato</span>
+                <input type="text" class="field-input">
+            </div>
+            <div class="field">
+                <span class="field-label">Endereço Residencial</span>
+                <input type="text" class="field-input">
+            </div>
+        </div>
+
+        <!-- 2. HISTÓRIA CLÍNICA -->
+        <div class="section-header">2. Anamnese & História Clínica</div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Queixa Principal</span>
+                <textarea class="field-input" oninput="autoResize(this)"></textarea>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">História Pregressa e Atual da Doença (HDA)</span>
+                <textarea class="field-input" oninput="autoResize(this)"></textarea>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Hábitos de Vida / Antecedentes Familiares</span>
+                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
+            </div>
+            <div class="field">
+                <span class="field-label">Tratamentos Anteriores (Cirurgias, Fisio prévia)</span>
+                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
+            </div>
+        </div>
+
+        <!-- 3. EXAME CLÍNICO-FÍSICO -->
+        <div class="section-header">3. Exame Físico e Funcional</div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Escala Visual Analógica (EVA)</span>
+                <div class="eva-container">
+                    <label class="eva-item">Repouso <input type="number" class="eva-input" min="0" max="10"> / 10</label>
+                    <label class="eva-item">Movimento <input type="number" class="eva-input" min="0" max="10"> / 10</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Clusters Diagnósticos - Membros Inferiores</span>
+                <div class="clusters-container">
+                    <!-- Quadril -->
+                    <div class="cluster-box">
+                        <strong>Quadril (IFA / Labrum)</strong>
+                        <label class="cluster-item"><input type="checkbox"> FADIR (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> FABER (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Teste de Thomas (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Hip Scour (+)</label>
+                    </div>
+                    <!-- Joelho -->
+                    <div class="cluster-box">
+                        <strong>Joelho (Menisco e LCA)</strong>
+                        <label class="cluster-item"><input type="checkbox"> Thessaly (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> McMurray (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Compressão de Apley (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Lachman / Gaveta Ant. (+)</label>
+                    </div>
+                    <!-- Tornozelo e Pé -->
+                    <div class="cluster-box">
+                        <strong>Tornozelo (Entorse / Fratura)</strong>
+                        <label class="cluster-item"><input type="checkbox"> Gaveta Anterior LTA (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Estresse em Inversão (+)</label>
+                        <label class="cluster-item"><input type="checkbox"> Squeeze Test (Sindesmose)</label>
+                        <label class="cluster-item"><input type="checkbox"> Regras de Ottawa (Dor óssea)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Inspeção, Palpação e Observações Biomecânicas (Cinemática / PIMA / HIMA)</span>
+                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
+            </div>
+        </div>
+
+        <!-- 4. DIAGNÓSTICO E PLANO -->
+        <div class="section-header">4. Diagnóstico e Conduta Terapêutica</div>
+        
+        <div class="grid-row">
+            <div class="field w-20">
+                <span class="field-label">Código CBDF</span>
+                <input type="text" class="field-input" placeholder="Ex: F2.1.2">
+            </div>
+            <div class="field w-80">
+                <span class="field-label">Diagnóstico Fisioterapêutico (Descrição CIF/CBDF)</span>
+                <textarea class="field-input" oninput="autoResize(this)"></textarea>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="field">
+                <span class="field-label">Exames Complementares Relatados / Prognóstico</span>
+                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 40px;"></textarea>
+            </div>
+        </div>
+
+        <div class="grid-row">
+            <div class="field w-70">
+                <span class="field-label">Plano Terapêutico e Objetivos</span>
+                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
+            </div>
+            <div class="field w-30">
+                <span class="field-label">Qtd. de Atendimentos Previstos</span>
+                <input type="text" class="field-input" placeholder="Ex: 10 sessões">
+            </div>
+        </div>
+
+        <!-- 5. ASSINATURAS -->
+        <div class="assinaturas-row">
+            <div class="assinatura-box">
+                <div class="linha-ass"></div>
+                <div class="assinatura-texto">
+                    <strong>Fisioterapeuta Responsável</strong><br>
+                    Nº de Inscrição no CREFITO
+                </div>
+            </div>
+            <div class="assinatura-box">
+                <div class="linha-ass"></div>
+                <div class="assinatura-texto">
+                    <strong>Paciente ou Responsável Legal</strong><br>
+                    Local e Data: <input type="text" class="field-input" style="width: 150px; display: inline-block; padding: 2px 5px; min-height: 20px; background: transparent; border-bottom: 1px solid var(--border); border-radius: 0;">
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Fim folha-prontuario -->
+
+    <script>
+        // Função para ajustar altura dos textareas dinamicamente
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        // Função de Geração do PDF
+        function gerarPDF() {
+            // Força atualização da altura antes do recorte para o PDF
+            document.querySelectorAll('textarea').forEach(el => autoResize(el));
+
+            const elemento = document.getElementById('folha-prontuario');
+            const opcoes = {
+                margin:       [0, 0, 0, 0], 
+                filename:     'Avaliacao_Alta_Performance.pdf',
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opcoes).from(elemento).save();
+        }
+    </script>
+</body>
+</html>

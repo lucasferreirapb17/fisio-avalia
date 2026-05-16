@@ -18,6 +18,29 @@ body {
     color: var(--text-main);
 }
 
+.btn-voltar {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    background-color: #ffffff;
+    color: var (--primary);
+    border: 1px solid var(---border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: o 4px 12px rgba(15, 23, 42, 0.08);
+    transition: all 0.2s;
+
+}
+
+.btn-voltar:hover {
+    transform: translateY(-2px);
+    color: vara(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px rgba(37, 99, 245, 015);
+}
+
 .btn-imprimir {
     background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     color: white;
@@ -46,7 +69,7 @@ body {
     min-height: 297mm;
     padding: 18mm 15mm;
     box-sizing: border-box;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     border-radius: 12px;
     position: relative;
 }

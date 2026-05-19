@@ -423,3 +423,42 @@ body.gerando-pdf .w-70 {
 body.gerando-pdf .w-80 {
     flex: 0.8 !important;
 }
+
+.acoes-rascunho {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn-rascunho {
+    background-color: #ffffff;
+    color: var(--primary);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    transition: all 0.2s;
+}
+
+.btn-rascunho:hover {
+    transform: translateY(-2px);
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
+}
+
+.btn-perigo {
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.btn-perigo:hover {
+    color: #ffffff;
+    background-color: #dc2626;
+    border-color: #dc2626;
+}

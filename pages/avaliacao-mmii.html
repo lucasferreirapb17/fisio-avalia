@@ -22,8 +22,19 @@
     <a href="../index.html" class="btn-voltar">
         ← Voltar para o início
     </a>
-
+    
     <button class="btn-imprimir" onclick="gerarPDF('avaliacao-mmii.pdf')">
+    <div class="acoes-rascunho">
+        <button type="button" class="btn-rascunho" onclick="salvarRascunho('rascunho-mmii')">
+            Salvar Rascunho
+        </button>
+        <button type="button" class="btn-rascunho" onclick="carregarRascunho('rascunho-mmii')">
+            Carregar Rascunho
+        </button>
+        <button type="button" class="btn-racunho btn-perigo" onclick="limparRascunho('rascunho-mmii')">
+            Limpar Rascunho
+        </button>
+    </div>    
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" />
@@ -211,9 +222,10 @@
 
     </div> <!-- Fim folha-prontuario -->
 
-    <!-- Gerador de PDF -->
+    <!-- Scripts JS -->
     <script src="../src/js/form-utils.js"></script>
     <script src="../src/js/pdf.js"></script>
+    <script src="../src/js/storage.js"></script>
 </body>
 
 

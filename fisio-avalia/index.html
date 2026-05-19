@@ -14,72 +14,114 @@
 </head>
 
 <body>
+<body>
 
-    <div class="header">
-        <h1>Centro de Avaliação</h1>
-        <p>Sistema de Alta Performance Clínica</p>
-    </div>
+    <main class="home-container">
 
-    <div class="dashboard-grid">
+        <section class="hero">
+            <span class="hero-badge">Projeto Front-end • Fisioterapia • Portfólio</span>
 
-        <!-- Ficha 1: MMII -->
-        <a href="./pages/avaliacao-mmii.html" class="card"> <!-- Substitua pelo nome do seu arquivo HTML de MMII -->
-            <div class="icon-container">
-                <svg class="icon-svg" viewBox="0 0 24 24">
-                    <!-- Ícone Abstrato de Propulsão / Perna em movimento -->
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                </svg>
+            <h1>FisioAvalia</h1>
+
+            <p class="hero-description">
+                Sistema web para criação de avaliações fisioterapêuticas e geração de relatórios em PDF.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#avaliacoes" class="btn-primary">Iniciar avaliação</a>
+                <a href="#funcionalidades" class="btn-secondary">Ver funcionalidades</a>
             </div>
-            <h2>Membros Inferiores</h2>
-            <p>Avaliação cineticofuncional, clusters de joelho, quadril e controle de carga esportiva.</p>
-        </a>
+        </section>
 
-        <!-- Ficha 2: MMSS -->
-        <a href="./pages/avaliacao-mmss.html" class="card">
-            <div class="icon-container">
-                <svg class="icon-svg" viewBox="0 0 24 24">
-                    <!-- Ícone Abstrato de Força e Mobilidade Superior (Target/Braço) -->
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 16v-4"></path>
-                    <path d="M12 8h.01"></path>
-                    <path d="M8 12h8"></path>
-                </svg>
+        <section class="info-grid" id="funcionalidades">
+
+            <div class="info-card">
+                <strong>4</strong>
+                <span>Modelos de avaliação</span>
             </div>
-            <h2>Membros Superiores</h2>
-            <p>Clusters de ombro, cotovelo e síndromes de impacto, com foco no ritmo escápulo-umeral.</p>
-        </a>
 
-        <!-- Ficha 3: Coluna / Core -->
-        <a href="./pages/avaliacao-coluna.html" class="card">
-            <div class="icon-container">
-                <svg class="icon-svg" viewBox="0 0 24 24">
-                    <!-- Ícone de Movimento e Core (Sem vértebras, foco no movimento esportivo e estabilidade) -->
-                    <path d="M12 2v20"></path>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
+            <div class="info-card">
+                <strong>PDF</strong>
+                <span>Geração de relatório</span>
             </div>
-            <h2>Coluna & Core</h2>
-            <p>Avaliação lombo-pélvica, estabilidade central, radiculopatias e ritmos biomecânicos.</p>
-        </a>
 
-        <!-- Ficha 4: Neurologia -->
-        <a href="./pages/avaliacao-neuro.html" class="card">
-            <div class="icon-container">
-                <svg class="icon-svg" viewBox="0 0 24 24">
-                    <!-- Ícone de Rede Neural / Cérebro Abstrato -->
-                    <path
-                        d="M12 3a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V19a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-3.26C6.19 14.47 5 12.38 5 10a7 7 0 0 1 7-7z">
-                    </path>
-                    <path d="M9 21v1"></path>
-                    <path d="M15 21v1"></path>
-                </svg>
+            <div class="info-card">
+                <strong>JS</strong>
+                <span>Projeto com JavaScript</span>
             </div>
-            <h2>Neurofuncional</h2>
-            <p>Avaliação de tônus, reflexos, coordenação motora e funcionalidade neuromotora.</p>
-        </a>
 
-    </div>
+        </section>
 
+        <section class="section-title" id="avaliacoes">
+            <h2>Escolha uma avaliação</h2>
+            <p>Selecione o tipo de ficha fisioterapêutica que deseja preencher.</p>
+        </section>
+
+        <section class="dashboard-grid">
+
+            <a href="./pages/avaliacao-mmii.html" class="card">
+                <div class="icon-container">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                </div>
+                <h2>Membros Inferiores</h2>
+                <p>Avaliação cineticofuncional, clusters de joelho, quadril e controle de carga esportiva.</p>
+            </a>
+
+            <a href="./pages/avaliacao-mmss.html" class="card">
+                <div class="icon-container">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                        <path d="M8 12h8"></path>
+                    </svg>
+                </div>
+                <h2>Membros Superiores</h2>
+                <p>Clusters de ombro, cotovelo e síndromes de impacto, com foco no ritmo escápulo-umeral.</p>
+            </a>
+
+            <a href="./pages/avaliacao-coluna.html" class="card">
+                <div class="icon-container">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 2v20"></path>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                    </svg>
+                </div>
+                <h2>Coluna & Core</h2>
+                <p>Avaliação lombo-pélvica, estabilidade central, radiculopatias e ritmos biomecânicos.</p>
+            </a>
+
+            <a href="./pages/avaliacao-neuro.html" class="card">
+                <div class="icon-container">
+                    <svg class="icon-svg" viewBox="0 0 24 24">
+                        <path d="M12 3a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V19a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-3.26C6.19 14.47 5 12.38 5 10a7 7 0 0 1 7-7z"></path>
+                        <path d="M9 21v1"></path>
+                        <path d="M15 21v1"></path>
+                    </svg>
+                </div>
+                <h2>Neurofuncional</h2>
+                <p>Avaliação de tônus, reflexos, coordenação motora e funcionalidade neuromotora.</p>
+            </a>
+
+        </section>
+
+        <section class="notice">
+            <h2>Uso educacional e portfólio</h2>
+            <p>
+                Este projeto foi desenvolvido para estudo de front-end e apresentação em portfólio.
+                Não utilize dados reais de pacientes durante testes ou demonstrações públicas.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>FisioAvalia • Desenvolvido como projeto de aprendizado em HTML, CSS, JavaScript e GitHub</p>
+    </footer>
+
+</body>
 </body>
 
 </html>

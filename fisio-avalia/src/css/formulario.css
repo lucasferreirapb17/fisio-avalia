@@ -305,3 +305,121 @@ textarea.field-input {
 .w-80 {
     flex: 0.8 !important;
 }
+@media (max-width: 900px){
+    body{
+        padding: 20px 12px;
+
+    }
+
+    .btn-voltar,
+    .btn-imprimir{
+        width: 100%;
+        max-width: 640px;
+        justify-content: center;
+    }
+    
+    #folha-prontuario{
+        width: 100%;
+        min-height: auto;
+        padding: 24px 16px;
+        border-radius: 10px;
+    }
+
+    .cabecalho-doc{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .marca-clinica{
+        text-align: left;
+
+    }
+
+    .grid-row{
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .field{
+        width: 100%;
+    }
+    
+    .w10,
+    .w20,
+    .w30,
+    .w70,
+    .w80{
+        flex: 1 !important;
+    }
+
+    .eva-container{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .clusters-container{
+        grid-template-columns: 1fr;
+    }
+
+    .assinaturas-row{
+        flex-direction: column;
+        gap: 50px;
+    }
+}
+
+body.gerando-pdf #folha-prontuario {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 18mm 15mm;
+    border-radius: 12px;
+
+}
+
+body.gerando-pdf .cabecalho-doc{
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+body.gerando-pdf .marca-clinica{
+    text-align: right;
+}
+
+body.gerando-pdf .grid-row{
+    flex-direction: row;
+}
+
+body.gerando-pdf .field.eva-container{
+    flex-direction: row;
+    align-items: center;
+}
+
+body.gerando-pdf .clusters-container{
+    grid-template-columns: repeat(3, 1fr);
+}
+
+body.gerando-pdf .assinaturas-row{
+    flex-direction: row;
+    gap: 30px;
+}
+
+body.gerando-pdf .w-10 {
+    flex: 0.1 !important;
+}
+
+body.gerando-pdf .w-20 {
+    flex: 0.2 !important;
+}
+
+body.gerando-pdf .w-30 {
+    flex: 0.3 !important;
+}
+
+body.gerando-pdf .w-70 {
+    flex: 0.7 !important;
+}
+
+body.gerando-pdf .w-80 {
+    flex: 0.8 !important;
+}

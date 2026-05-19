@@ -1,4 +1,4 @@
-window.gerarPDF = function (nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
+window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
     const elemento = document.getElementById('folha-prontuario');
 
     if (!elemento) {
@@ -11,9 +11,11 @@ window.gerarPDF = function (nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
         return;
     }
 
-    document.querySelectorAll('textarea').forEach(function (textarea) {
+    document.querySelectorAll('textarea').forEach(function(textarea) {
         window.autoResize(textarea);
     });
+
+    document.body.classList.add('gerando-pdf');
 
     const opcoes = {
         margin: [0, 0, 0, 0],
@@ -35,5 +37,16 @@ window.gerarPDF = function (nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
         }
     };
 
-    html2pdf().set(opcoes).from(elemento).save();
+    html2pdf()
+        .set(opcoes)
+        .from(elemento)
+        .save()
+        .then(function() {
+            document.body.classList.remove('gerando-pdf');
+        })
+        .catch(function(error) {
+            document.body.classList.remove('gerando-pdf');
+            console.error(error);
+            alert('Erro ao gerar PDF. Veja o console para mais detalhes.');
+        });
 };

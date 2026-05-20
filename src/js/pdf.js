@@ -96,7 +96,11 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
             pagebreak: {
                 mode: ['css', 'legacy'],
                 before: ['.quebra-pagina-pdf'],
-                avoid: ['.grid-row', '.cluster-box', '.assinaturas-row', '.cabecalho-doc']
+                avoid: [
+                    '.sem-corte-pdf',
+                    '.cluster-box', 
+                    '.assinaturas-row', 
+                    '.cabecalho-doc']
             }
         };
 

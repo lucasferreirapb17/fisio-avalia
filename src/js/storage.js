@@ -1,22 +1,29 @@
-function obterCamposDaFicha(){
-    return document.querySelectorAll('#folha-prontuario input, #folha-prontuario texttarea');
-
+function obterCamposDaFicha() {
+    return document.querySelectorAll('#folha-prontuario input, #folha-prontuario textarea');
 }
 
-window.slavarRascunho = function(chave){
+window.salvarRascunho = function(chave) {
     const campos = obterCamposDaFicha();
     const dados = [];
 
-    campos.forEach(function(campo) {
+    campos.forEach(function(campo, index) {
         const campoEhCheckbox = campo.type === 'checkbox';
 
         dados.push({
+            index: index,
             tipo: campo.type,
+            tag: campo.tagName.toLowerCase(),
             valor: campoEhCheckbox ? campo.checked : campo.value
         });
     });
 
-    localStorage.setItem(chave, JSON.stringfy(dados));
+    const rascunho = {
+        dataSalvamento: new Date().toISOString(),
+        totalCampos: dados.length,
+        campos: dados
+    };
+
+    localStorage.setItem(chave, JSON.stringify(rascunho));
 
     alert('Rascunho salvo com sucesso!');
 };
@@ -25,23 +32,23 @@ window.carregarRascunho = function(chave) {
     const dadosSalvos = localStorage.getItem(chave);
 
     if (!dadosSalvos) {
-        alert('Nenhum rascunho encontrado.');
+        alert('Nenhum rascunho encontrado para esta ficha.');
         return;
     }
 
+    const rascunho = JSON.parse(dadosSalvos);
     const campos = obterCamposDaFicha();
-    const dados = JSON.parse(dadosSalvos);
 
-    campos.forEach(function(campp, index) {
-        const dado = dados[index];
+    rascunho.campos.forEach(function(dado) {
+        const campo = campos[dado.index];
 
-        if (!dado) {
+        if (!campo) {
             return;
         }
 
         const campoEhCheckbox = campo.type === 'checkbox';
 
-        if (campoEhCheckbox){
+        if (campoEhCheckbox) {
             campo.checked = dado.valor;
         } else {
             campo.value = dado.valor;
@@ -52,12 +59,17 @@ window.carregarRascunho = function(chave) {
         window.autoResize(textarea);
     });
 
-    alert('Rascunho Carregado com sucesso!');
+    alert('Rascunho carregado com sucesso!');
 };
 
 window.limparRascunho = function(chave) {
+    const confirmar = confirm('Tem certeza que deseja apagar o rascunho desta ficha?');
+
+    if (!confirmar) {
+        return;
+    }
+
     localStorage.removeItem(chave);
 
-    alert('Rascunho limpo com sucesso!');
-
+    alert('Rascunho removido com sucesso!');
 };

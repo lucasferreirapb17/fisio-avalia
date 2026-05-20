@@ -514,10 +514,10 @@ body.gerando-pdf .w-80 {
     border-radius: 0;
 }
 
-.grid-row,
-.cluster-box,
-.assinaturas-row,
-.cabecalho-doc {
+body.gerando-pdf .sem-corte-pdf,
+body.gerando-pdf .cluster-box,
+body.gerando-pdf .cabecalho-doc,
+body.gerando-pdf .assinatura-box {
     break-inside: avoid;
     page-break-inside: avoid;
 }

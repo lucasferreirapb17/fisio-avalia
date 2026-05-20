@@ -30,6 +30,18 @@
         </svg>
         Gerar Relatório de Avaliação
     </button>
+    <div class="acoes-rascunho">
+        <button type="button" class="btn-rascunho" onclick="salvarRascunho('rascunho-mmii')">
+            Salvar Rascunho
+        </button>
+        <button type="button" class="btn-rascunho" onclick="carregarRascunho('rascunho-mmii')">
+            Carregar Rascunho
+        </button>
+        <button type="button" class="btn-racunho btn-perigo" onclick="limparRascunho('rascunho-mmii')">
+            Limpar Rascunho
+        </button>
+    </div> 
+
 
     <div id="folha-prontuario">
 
@@ -87,6 +99,9 @@
                 <span class="field-label">Queixa Principal</span>
                 <textarea class="field-input" oninput="autoResize(this)"></textarea>
             </div>
+
+            <div class="quebra-pagina-pdf"></div>
+
         </div>
         <div class="grid-row">
             <div class="field">
@@ -119,8 +134,11 @@
             </div>
         </div>
 
-        <div class="grid-row">
-            <div class="field">
+        <div class="quebra-pagina-pdf"></div>
+
+
+        <div class="grid-row sem-corte-pdf">
+            <div class="field"> 
                 <span class="field-label">Clusters Diagnósticos - Membros Superiores</span>
                 <div class="clusters-container">
                     <!-- Ombro -->
@@ -157,6 +175,8 @@
                 <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
             </div>
         </div>
+
+        <div class="quebra-pagina-pdf"></div>
 
         <!-- 4. DIAGNÓSTICO E PLANO -->
         <div class="section-header">4. Diagnóstico e Conduta Terapêutica</div>
@@ -214,6 +234,7 @@
     <!-- Gerador de PDF -->
     <script src="../src/js/form-utils.js"></script>
     <script src="../src/js/pdf.js"></script>
+    <script src="../src/js/storage.js"></script>
 </body>
 
 

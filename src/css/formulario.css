@@ -521,3 +521,51 @@ body.gerando-pdf .w-80 {
     break-inside: avoid;
     page-break-inside: avoid;
 }
+
+.campo-pdf {
+    display: block;
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    color: var(--primary);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.campo-pdf-input {
+    min-height: 38px;
+}
+
+.campo-pdf-textarea {
+    min-height: 44px;
+}
+
+.grid-row,
+.cluster-box,
+.assinaturas-row,
+.cabecalho-doc {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.quebra-pagina-pdf {
+    display: block;
+    height: 0;
+}
+
+body.gerando-pdf .quebra-pagina-pdf {
+    break-before: page;
+    page-break-before: always;
+}
+
+body.gerando-pdf .sem-corte-pdf {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}

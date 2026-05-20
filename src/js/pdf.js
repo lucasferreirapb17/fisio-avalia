@@ -1,17 +1,26 @@
-function prepararCamposNoClone(clonedDocument) {
-    const folha = clonedDocument.getElementById('folha-prontuario');
+function trocarCamposPorTextoParaPDF() {
+    const campos = document.querySelectorAll('#folha-prontuario input, #folha-prontuario textarea');
+    const camposTrocados = [];
 
-    if (!folha) {
-        return;
-    }
+    campos.forEach(function(campo) {
+        if (campo.type === 'checkbox') {
+            return;
+        }
 
-    folha.querySelectorAll('textarea').forEach(function(textarea) {
-        const div = clonedDocument.createElement('div');
+        const texto = campo.value || campo.placeholder || ' ';
+        const div = document.createElement('div');
 
-        div.className = textarea.className + ' campo-pdf campo-pdf-textarea';
-        div.textContent = textarea.value || ' ';
+        div.textContent = texto;
 
-        const estiloOriginal = textarea.getAttribute('style');
+        if (campo.tagName.toLowerCase() === 'textarea') {
+            div.className = campo.className + ' campo-pdf campo-pdf-textarea';
+            div.style.minHeight = campo.offsetHeight + 'px';
+        } else {
+            div.className = campo.className + ' campo-pdf campo-pdf-input';
+            div.style.minHeight = campo.offsetHeight + 'px';
+        }
+
+        const estiloOriginal = campo.getAttribute('style');
 
         if (estiloOriginal) {
             div.setAttribute('style', estiloOriginal);
@@ -22,36 +31,20 @@ function prepararCamposNoClone(clonedDocument) {
         div.style.overflowWrap = 'anywhere';
         div.style.wordBreak = 'break-word';
 
-        textarea.replaceWith(div);
+        campo.parentNode.replaceChild(div, campo);
+
+        camposTrocados.push({
+            original: campo,
+            substituto: div
+        });
     });
 
-    folha.querySelectorAll('input').forEach(function(input) {
-        if (input.type === 'checkbox') {
-            if (input.checked) {
-                input.setAttribute('checked', 'checked');
-            } else {
-                input.removeAttribute('checked');
-            }
+    return camposTrocados;
+}
 
-            return;
-        }
-
-        const div = clonedDocument.createElement('div');
-
-        div.className = input.className + ' campo-pdf campo-pdf-input';
-        div.textContent = input.value || input.placeholder || ' ';
-
-        const estiloOriginal = input.getAttribute('style');
-
-        if (estiloOriginal) {
-            div.setAttribute('style', estiloOriginal);
-        }
-
-        div.style.whiteSpace = 'pre-wrap';
-        div.style.overflowWrap = 'anywhere';
-        div.style.wordBreak = 'break-word';
-
-        input.replaceWith(div);
+function restaurarCamposOriginais(camposTrocados) {
+    camposTrocados.forEach(function(item) {
+        item.substituto.parentNode.replaceChild(item.original, item.substituto);
     });
 }
 
@@ -75,6 +68,8 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
             window.autoResize(textarea);
         });
 
+        const camposTrocados = trocarCamposPorTextoParaPDF();
+
         const opcoes = {
             margin: [0, 0, 0, 0],
 
@@ -89,8 +84,7 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
                 scale: 2,
                 useCORS: true,
                 letterRendering: true,
-                backgroundColor: '#ffffff',
-                onclone: prepararCamposNoClone
+                backgroundColor: '#ffffff'
             },
 
             jsPDF: {
@@ -101,6 +95,7 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
 
             pagebreak: {
                 mode: ['css', 'legacy'],
+                before: ['.quebra-pagina-pdf'],
                 avoid: ['.grid-row', '.cluster-box', '.assinaturas-row', '.cabecalho-doc']
             }
         };
@@ -110,9 +105,11 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
             .from(elemento)
             .save()
             .then(function() {
+                restaurarCamposOriginais(camposTrocados);
                 document.body.classList.remove('gerando-pdf');
             })
             .catch(function(error) {
+                restaurarCamposOriginais(camposTrocados);
                 document.body.classList.remove('gerando-pdf');
                 console.error(error);
                 alert('Erro ao gerar PDF. Veja o console para mais detalhes.');

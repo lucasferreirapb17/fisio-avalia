@@ -157,6 +157,7 @@ body {
     transition: all 0.2s;
     resize: none;
     overflow: hidden;
+
 }
 
 .field-input:focus {
@@ -168,6 +169,10 @@ body {
 
 textarea.field-input {
     min-height: 44px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .eva-container {

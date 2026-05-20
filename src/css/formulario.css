@@ -467,3 +467,57 @@ body.gerando-pdf .w-80 {
     background-color: #dc2626;
     border-color: #dc2626;
 }
+
+.campo-pdf {
+    display: block;
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    color: var(--primary);
+    line-height: 1.5;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.campo-pdf-input {
+    min-height: 38px;
+}
+
+.campo-pdf-textarea {
+    min-height: 44px;
+}
+
+.eva-container .campo-pdf-input {
+    width: 50px;
+    min-height: 28px;
+    padding: 4px;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.assinatura-texto .campo-pdf-input {
+    width: 150px;
+    display: inline-block;
+    min-height: 20px;
+    padding: 2px 5px;
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+}
+
+.grid-row,
+.cluster-box,
+.assinaturas-row,
+.cabecalho-doc {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}

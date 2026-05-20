@@ -1,3 +1,60 @@
+function prepararCamposNoClone(clonedDocument) {
+    const folha = clonedDocument.getElementById('folha-prontuario');
+
+    if (!folha) {
+        return;
+    }
+
+    folha.querySelectorAll('textarea').forEach(function(textarea) {
+        const div = clonedDocument.createElement('div');
+
+        div.className = textarea.className + ' campo-pdf campo-pdf-textarea';
+        div.textContent = textarea.value || ' ';
+
+        const estiloOriginal = textarea.getAttribute('style');
+
+        if (estiloOriginal) {
+            div.setAttribute('style', estiloOriginal);
+        }
+
+        div.style.height = 'auto';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.overflowWrap = 'anywhere';
+        div.style.wordBreak = 'break-word';
+
+        textarea.replaceWith(div);
+    });
+
+    folha.querySelectorAll('input').forEach(function(input) {
+        if (input.type === 'checkbox') {
+            if (input.checked) {
+                input.setAttribute('checked', 'checked');
+            } else {
+                input.removeAttribute('checked');
+            }
+
+            return;
+        }
+
+        const div = clonedDocument.createElement('div');
+
+        div.className = input.className + ' campo-pdf campo-pdf-input';
+        div.textContent = input.value || input.placeholder || ' ';
+
+        const estiloOriginal = input.getAttribute('style');
+
+        if (estiloOriginal) {
+            div.setAttribute('style', estiloOriginal);
+        }
+
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.overflowWrap = 'anywhere';
+        div.style.wordBreak = 'break-word';
+
+        input.replaceWith(div);
+    });
+}
+
 window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
     const elemento = document.getElementById('folha-prontuario');
 
@@ -20,21 +77,31 @@ window.gerarPDF = function(nomeArquivo = 'avaliacao-fisioterapeutica.pdf') {
 
         const opcoes = {
             margin: [0, 0, 0, 0],
+
             filename: nomeArquivo,
+
             image: {
                 type: 'jpeg',
                 quality: 1.0
             },
+
             html2canvas: {
                 scale: 2,
                 useCORS: true,
                 letterRendering: true,
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                onclone: prepararCamposNoClone
             },
+
             jsPDF: {
                 unit: 'mm',
                 format: 'a4',
                 orientation: 'portrait'
+            },
+
+            pagebreak: {
+                mode: ['css', 'legacy'],
+                avoid: ['.grid-row', '.cluster-box', '.assinaturas-row', '.cabecalho-doc']
             }
         };
 

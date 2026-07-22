@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="../src/css/global.css">
     <link rel="stylesheet" href="../src/css/formulario.css">
-    <script src="../src/js/dados-formularios.js"></script>
+    <script src="../src/js/dados-formularios.js" defer></script>
 
 </head>
 
@@ -58,48 +58,16 @@
 
         <!-- 1. IDENTIFICAÇÃO DO PACIENTE -->
         <div class="section-header">1. Identificação do Paciente</div>
-        <div class="grid-row">
-            <div class="field w-80">
-                <span class="field-label">Nome Completo</span>
-                <input type="text" class="field-input" placeholder="Ex: João da Silva">
-            </div>
-            <div class="field w-20">
-                <span class="field-label">Idade</span>
-                <input type="text" class="field-input" placeholder="Anos">
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Estado Civil</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Gênero</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Profissão / Esporte</span>
-                <input type="text" class="field-input">
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Telefone / Contato</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Endereço Residencial</span>
-                <input type="text" class="field-input">
-            </div>
-        </div>
+       
 
-        <!-- 1. IDENTIFICAÇÃO DO PACIENTE -->
         <div id="identification-section">
 
         </div>
 
+
         <!-- 2. HISTÓRIA CLÍNICA -->
         <div class="section-header">2. Anamnese & História Clínica</div>
+        <!--
         <div class="grid-row">
             <div class="field">
                 <span class="field-label">Queixa Principal</span>
@@ -121,6 +89,10 @@
             <div class="field">
                 <span class="field-label">Tratamentos Anteriores (Cirurgias, Fisio prévia)</span>
                 <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
+            </div>
+        -->
+            <div id="clinicHistoric-section">
+                
             </div>
         </div>
 

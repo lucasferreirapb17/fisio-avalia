@@ -140,7 +140,7 @@ const inspectionFields = [
 ]
 
 // clusters diagnósticos //
-const clusterFields = [
+const clusterFieldsMmii = [
     {
         title: 'Quadril (IFA / Labrum)',
         tests: [
@@ -169,8 +169,99 @@ const clusterFields = [
         ]
     }
 ]
+const clusterFieldsMmss = [
+{
+        title: 'Ombro (Impacto / Manguito / SLAP)',
+        tests: [
+            {label: 'Neer / Hawkins-Kennedy (+)', value: 'neerHawkins'},
+            {label: 'Jobe (Empty Can) (+)', value: 'jobe'},
+            {label: 'Teste de Apreensão (+)', value: 'apprehensionTest'},
+            {label: 'O\'Brien (SLAP) (+)', value: 'obrien'}
+        ]
+    },
+    {
+        title: 'Cotovelo (Epicondilalgias / Lig.)',
+        tests: [
+            {label: 'Cozen (Epicond. Lateral) (+)', value: 'cozen'},
+            {label: 'Mill (Epicond. Lateral) (+)', value: 'mill'},
+            {label: 'Golfer\'s Elbow (Medial) (+)', value: 'golfersElbow'},
+            {label: 'Estresse Valgo/Varo (+)', value: 'valgusVarusStress'}
+        ]
+    },
+    {
+        title: 'Punho e Mão (Nervoso / Tendíneo)',
+        tests: [
+            {label: 'Phalen (Túnel do Carpo) (+)', value: 'phalen'},
+            {label: 'Tinel (Túnel do Carpo) (+)', value: 'tinel'},
+            {label: 'Finkelstein (De Quervain) (+)', value: 'finkelstein'},
+            {label: 'Teste de Allen (+)', value: 'allenTest'}
+        ]
+    }
+]
 
-// criação dos inputs
+// clusters coluna e core //
+const clusterFieldsSpine = [
+    {
+        title: 'Cervical (Radiculopatia / Tensão)',
+        tests: [
+            {label: 'Teste de Spurling (+)', value: 'spurlingTest'},
+            {label: 'Tração / Distração Cervical (Alívio)', value: 'cervicalDistraction'},
+            {label: 'ULTT (Tensão Neural Sup.) (+)', value: 'ultt'},
+            {label: 'Teste de Flexo-Rotação (+)', value: 'flexionRotationTest'}
+        ]
+    },
+    {
+        title: 'Lombar (Radiculopatia / Instab.)',
+        tests: [
+            {label: 'Lasègue / SLR (+)', value: 'lasegueSlr'},
+            {label: 'Slump Test (+)', value: 'slumpTest'},
+            {label: 'Prone Instability Test (+)', value: 'proneInstabilityTest'},
+            {label: 'Teste de Schober (Mobilidade)', value: 'schoberTest'}
+        ]
+    },
+    {
+        title: 'Sacroilíaca (Cluster de Laslett)',
+        tests: [
+            {label: 'Thigh Thrust (+)', value: 'thighThrust'},
+            {label: 'Distração / Compressão (+)', value: 'siDistractionCompression'},
+            {label: 'Sacral Thrust (+)', value: 'sacralThrust'},
+            {label: 'Teste de Gaenslen (+)', value: 'gaenslenTest'}
+        ]
+    }
+]
+
+// clusters neurofuncional //
+const clusterFieldsNeuro = [
+    {
+        title: 'Tônus e Reflexos Patológicos',
+        tests: [
+            {label: 'Escala Modificada de Ashworth', value: 'modifiedAshworthScale'},
+            {label: 'Reflexo Cutâneo Plantar (Babinski)', value: 'babinskiReflex'},
+            {label: 'Reflexos Profundos (Hiper/Hiporreflexia)', value: 'deepTendonReflexes'},
+            {label: 'Presença de Clônus / Espasticidade', value: 'clonusSpasticity'}
+        ]
+    },
+    {
+        title: 'Equilíbrio e Coordenação',
+        tests: [
+            {label: 'Index-Nariz / Calcanhar-Joelho (Dismetr.)', value: 'dysmetriaTests'}, // ou fingerToNose
+            {label: 'Romberg / Romberg Sensibilizado', value: 'rombergTest'},
+            {label: 'Escala de Equilíbrio de Berg (BBS)', value: 'bergBalanceScale'},
+            {label: 'TUG Test (Timed Up and Go)', value: 'tugTest'}
+        ]
+    },
+    {
+        title: 'Sensório-Motor e Força',
+        tests: [
+            {label: 'Sensib. Superficial (Tátil, Dolorosa)', value: 'superficialSensation'},
+            {label: 'Sensib. Profunda (Propriocepção)', value: 'proprioception'},
+            {label: 'Força Muscular Global (Escala MRC 0-5)', value: 'mrcScale'},
+            {label: 'Controle de Tronco e Sinergias', value: 'trunkControlSynergies'}
+        ]
+    }
+];
+
+// criação dos inputs //
 function renderField(field) {
     const wrapper = document.createElement('div');
     wrapper.className = 'field';
@@ -305,7 +396,7 @@ inspectionFields.forEach(function(field){
 });
 
 // imprime clusters
-clusterFields.forEach(function(cluster) {
+clusterFieldsMmii.forEach(function(cluster) {
     const element = renderCluster(cluster);
     document.getElementById('clusters-section').appendChild(element);
 });

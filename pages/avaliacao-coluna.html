@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prontuário de Alta Performance - Coluna Vertebral</title>
+    <title>Prontuário de Alta Performance</title>
 
     <!-- Biblioteca para gerar o PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="../src/css/global.css">
     <link rel="stylesheet" href="../src/css/formulario.css">
+    <script src="../src/js/dados-formularios.js" defer></script>
 
 </head>
 
@@ -23,13 +24,14 @@
         ← Voltar para o início
     </a>
 
-    <button class="btn-imprimir" onclick="gerarPDF('avaliacao-coluna.pdf')">
+    <button class="btn-imprimir" onclick="gerarPDF('avaliacao-mmii.pdf')">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" />
         </svg>
         Gerar Relatório de Avaliação
     </button>
+
     <div class="acoes-rascunho">
         <button type="button" class="btn-rascunho" onclick="salvarRascunho('rascunho-mmii')">
             Salvar Rascunho
@@ -40,15 +42,14 @@
         <button type="button" class="btn-racunho btn-perigo" onclick="limparRascunho('rascunho-mmii')">
             Limpar Rascunho
         </button>
-    </div> 
-
+    </div>
 
     <div id="folha-prontuario">
 
         <div class="cabecalho-doc">
             <div class="titulo">
                 <h1>Avaliação Fisioterapêutica</h1>
-                <p>Traumato-Ortopedia & Performance - Coluna Vertebral</p>
+                <p>Traumato-Ortopedia & Performance</p>
             </div>
             <div class="marca-clinica">
                 Res. COFFITO nº 414/2012
@@ -57,119 +58,39 @@
 
         <!-- 1. IDENTIFICAÇÃO DO PACIENTE -->
         <div class="section-header">1. Identificação do Paciente</div>
-        <div class="grid-row">
-            <div class="field w-80">
-                <span class="field-label">Nome Completo</span>
-                <input type="text" class="field-input" placeholder="Ex: João da Silva">
-            </div>
-            <div class="field w-20">
-                <span class="field-label">Idade</span>
-                <input type="text" class="field-input" placeholder="Anos">
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Estado Civil</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Gênero</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Profissão / Esporte</span>
-                <input type="text" class="field-input">
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Telefone / Contato</span>
-                <input type="text" class="field-input">
-            </div>
-            <div class="field">
-                <span class="field-label">Endereço Residencial</span>
-                <input type="text" class="field-input">
-            </div>
+
+        <div id="identification-section">
+
         </div>
 
         <!-- 2. HISTÓRIA CLÍNICA -->
         <div class="section-header">2. Anamnese & História Clínica</div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Queixa Principal (Localização da dor, irradiação, parestesia)</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">História Pregressa e Atual da Doença (HDA) - Posições de alívio e piora</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
+        <div id="clinicHistoric-section">
 
-        <div class="quebra-pagina-pdf"></div>
-
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Hábitos de Vida / Bandeiras Vermelhas (Red Flags)</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
-            </div>
-            <div class="field">
-                <span class="field-label">Tratamentos Anteriores / Cirurgias</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
-            </div>
         </div>
 
         <!-- 3. EXAME CLÍNICO-FÍSICO -->
         <div class="section-header">3. Exame Físico e Funcional</div>
+        <div id="vas-section">
+
+        </div>
+
         <div class="grid-row">
             <div class="field">
-                <span class="field-label">Escala Visual Analógica (EVA)</span>
-                <div class="eva-container">
-                    <label class="eva-item">Repouso <input type="number" class="eva-input" min="0" max="10"> /
-                        10</label>
-                    <label class="eva-item">Movimento <input type="number" class="eva-input" min="0" max="10"> /
-                        10</label>
+                <span class="field-label">Clusters Diagnósticos - Coluna e  Core</span>
+                <div class="clusters-container" id="clusterSpine-section">
+
                 </div>
             </div>
         </div>
 
-        <div class="grid-row sem-corte-pdf">
-            <div class="field">
-                <span class="field-label">Clusters Diagnósticos - Coluna Vertebral e Pelve</span>
-                <div class="clusters-container">
-                    <!-- Cervical -->
-                    <div class="cluster-box">
-                        <strong>Cervical (Radiculopatia / Tensão)</strong>
-                        <label class="cluster-item"><input type="checkbox"> Teste de Spurling (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Tração / Distração Cervical (Alívio)</label>
-                        <label class="cluster-item"><input type="checkbox"> ULTT (Tensão Neural Sup.) (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Teste de Flexo-Rotação (+)</label>
-                    </div>
-                    <!-- Lombar -->
-                    <div class="cluster-box">
-                        <strong>Lombar (Radiculopatia / Instab.)</strong>
-                        <label class="cluster-item"><input type="checkbox"> Lasègue / SLR (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Slump Test (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Prone Instability Test (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Teste de Schober (Mobilidade)</label>
-                    </div>
-                    <!-- Sacroilíaca -->
-                    <div class="cluster-box">
-                        <strong>Sacroilíaca (Cluster de Laslett)</strong>
-                        <label class="cluster-item"><input type="checkbox"> Thigh Thrust (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Distração / Compressão (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Sacral Thrust (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Teste de Gaenslen (+)</label>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="grid-row">
             <div class="field">
-                <span class="field-label">Inspeção, Palpação e Biomecânica (Ritmo Lombo-Pélvico, Centralização,
-                    PIMA/HIMA)</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
+                <span class="field-label">Inspeção, Palpação e Observações Biomecânicas (Cinemática / PIMA /
+                    HIMA)</span>
+                <div class="inspection-section" id="inspection-section">
+
+                </div>
             </div>
         </div>
 
@@ -177,36 +98,8 @@
 
         <!-- 4. DIAGNÓSTICO E PLANO -->
         <div class="section-header">4. Diagnóstico e Conduta Terapêutica</div>
+        <div id="diagnosis-section">
 
-        <div class="grid-row">
-            <div class="field w-20">
-                <span class="field-label">Código CBDF</span>
-                <input type="text" class="field-input" placeholder="Ex: F2.1.2">
-            </div>
-            <div class="field w-80">
-                <span class="field-label">Diagnóstico Fisioterapêutico (Descrição CIF/CBDF)</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
-
-        <div class="quebra-pagina-pdf"></div>
-
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Exames Complementares Relatados (RNM, RX) / Prognóstico</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 40px;"></textarea>
-            </div>
-        </div>
-
-        <div class="grid-row">
-            <div class="field w-70">
-                <span class="field-label">Plano Terapêutico e Objetivos (Controle Motor, Estabilização, etc.)</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
-            </div>
-            <div class="field w-30">
-                <span class="field-label">Qtd. de Atendimentos Previstos</span>
-                <input type="text" class="field-input" placeholder="Ex: 10 sessões">
-            </div>
         </div>
 
         <!-- 5. ASSINATURAS -->
@@ -230,10 +123,11 @@
 
     </div> <!-- Fim folha-prontuario -->
 
-    <!-- Gerador de PDF -->
+    <!-- Scripts JS -->
     <script src="../src/js/form-utils.js"></script>
     <script src="../src/js/pdf.js"></script>
     <script src="../src/js/storage.js"></script>
 </body>
+
 
 </html>

@@ -396,7 +396,10 @@ inspectionFields.forEach(function(field){
 });
 
 // imprime clusters
-clusterFieldsMmii.forEach(function(cluster) {
-    const element = renderCluster(cluster);
-    document.getElementById('clusters-section').appendChild(element);
-});
+const secMMII = document.getElementById('clustersMmii-section');
+if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
+    clusterFieldsMmii.forEach(function(cluster) {
+        secMMII.appendChild(renderCluster(cluster));
+    });
+}
+

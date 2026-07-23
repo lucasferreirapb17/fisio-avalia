@@ -26,7 +26,7 @@ const identificationFields = [
     {id: 'gender',
         label: 'Gênero',
         type: 'radio',
-        options: [{value: 'masculino', text: 'Masculino'}, {value: 'feminino', text: 'Feminino'}],
+        options: [{value: 'masculino', text: 'Masculino'}, {value: 'feminino', text: 'Feminino'}, {value: 'naoInformado', text: 'Não Informado'}],
         width: 40
     },
     {id: 'profession',
@@ -114,6 +114,8 @@ const vasFields = [
         label: 'Dor em Repouso:',
         type: 'number',
         width: 30,
+        min: 0,
+        max: 10,
         placeholder: '0 a 10'
     },
     {
@@ -121,7 +123,19 @@ const vasFields = [
         label: 'Dor em Movimento:',
         type: 'number',
         width: 30,
+        min: 0,
+        max: 10,
         placeholder: '0 a 10'
+    }
+]
+
+// arrays para exame físico //
+const inspectionFields = [
+    {
+        id: 'inspection',
+        label: 'Inspeção Visual',
+        type: 'textarea',
+        width: 100
     }
 ]
 
@@ -180,9 +194,14 @@ function renderField(field) {
         });
 
         wrapper.appendChild(selectEl);
+
     } else if (field.type === 'radio') {
+        
+        const radioGroup = document.createElement('div');
+        
         field.options.forEach(function(option) {
             const labelOption = document.createElement('label');
+            labelOption.className = "radio-item";
 
             const radioEl = document.createElement('input');
             radioEl.type = 'radio';
@@ -193,8 +212,11 @@ function renderField(field) {
             labelOption.appendChild(radioEl);
             labelOption.appendChild(textoOption);
 
-            wrapper.appendChild(labelOption);
+            
+            radioGroup.appendChild(labelOption);
         });
+        wrapper.appendChild(radioGroup);
+
     } else if (field.type === 'textarea') {
         const textAreaEl = document.createElement('textarea');
         textAreaEl.className = 'field-input';
@@ -203,12 +225,21 @@ function renderField(field) {
         textAreaEl.addEventListener('input', function() { window.autoResize(this); });
 
         wrapper.appendChild(textAreaEl);
+
     } else {
         const inputEl = document.createElement('input');
         inputEl.className = 'field-input';
         inputEl.type = field.type;
         inputEl.placeholder = field.placeholder || '';
         inputEl.id = field.id;
+
+        if (field.min !== undefined) {
+            inputEl.min = field.min;
+        }
+
+        if (field.max !== undefined) {
+            inputEl.max = field.max;
+        }
 
         wrapper.appendChild(inputEl);
     }
@@ -265,6 +296,12 @@ diagnosisFields.forEach(function(field){
 vasFields.forEach(function(field){
     const element = renderField(field);
     document.getElementById('vas-section').appendChild(element);
+});
+
+// imprime campos de exame físico
+inspectionFields.forEach(function(field){
+    const element = renderField(field);
+    document.getElementById('inspection-section').appendChild(element);
 });
 
 // imprime clusters

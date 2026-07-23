@@ -23,7 +23,7 @@
     <a href="../index.html" class="btn-voltar">
         ← Voltar para o início
     </a>
-    
+
     <button class="btn-imprimir" onclick="gerarPDF('avaliacao-mmii.pdf')">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
@@ -42,7 +42,7 @@
         <button type="button" class="btn-racunho btn-perigo" onclick="limparRascunho('rascunho-mmii')">
             Limpar Rascunho
         </button>
-    </div> 
+    </div>
 
     <div id="folha-prontuario">
 
@@ -58,89 +58,32 @@
 
         <!-- 1. IDENTIFICAÇÃO DO PACIENTE -->
         <div class="section-header">1. Identificação do Paciente</div>
-       
 
         <div id="identification-section">
 
         </div>
 
-
         <!-- 2. HISTÓRIA CLÍNICA -->
         <div class="section-header">2. Anamnese & História Clínica</div>
-        <!--
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Queixa Principal</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
+        <div id="clinicHistoric-section">
 
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">História Pregressa e Atual da Doença (HDA)</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Hábitos de Vida / Antecedentes Familiares</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
-            </div>
-            <div class="field">
-                <span class="field-label">Tratamentos Anteriores (Cirurgias, Fisio prévia)</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 35px;"></textarea>
-            </div>
-        -->
-            <div id="clinicHistoric-section">
-                
-            </div>
         </div>
 
         <!-- 3. EXAME CLÍNICO-FÍSICO -->
         <div class="section-header">3. Exame Físico e Funcional</div>
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Escala Visual Analógica (EVA)</span>
-                <div class="eva-container">
-                    <label class="eva-item">Repouso <input type="number" class="eva-input" min="0" max="10"> /
-                        10</label>
-                    <label class="eva-item">Movimento <input type="number" class="eva-input" min="0" max="10"> /
-                        10</label>
-                </div>
-            </div>
+        <div id="vas-section">
+
         </div>
 
         <div class="grid-row">
             <div class="field">
                 <span class="field-label">Clusters Diagnósticos - Membros Inferiores</span>
-                <div class="clusters-container">
-                    <!-- Quadril -->
-                    <div class="cluster-box">
-                        <strong>Quadril (IFA / Labrum)</strong>
-                        <label class="cluster-item"><input type="checkbox"> FADIR (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> FABER (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Teste de Thomas (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Hip Scour (+)</label>
-                    </div>
-                    <!-- Joelho -->
-                    <div class="cluster-box">
-                        <strong>Joelho (Menisco e LCA)</strong>
-                        <label class="cluster-item"><input type="checkbox"> Thessaly (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> McMurray (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Compressão de Apley (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Lachman / Gaveta Ant. (+)</label>
-                    </div>
-                    <!-- Tornozelo e Pé -->
-                    <div class="cluster-box">
-                        <strong>Tornozelo (Entorse / Fratura)</strong>
-                        <label class="cluster-item"><input type="checkbox"> Gaveta Anterior LTA (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Estresse em Inversão (+)</label>
-                        <label class="cluster-item"><input type="checkbox"> Squeeze Test (Sindesmose)</label>
-                        <label class="cluster-item"><input type="checkbox"> Regras de Ottawa (Dor óssea)</label>
-                    </div>
+                <div class="clusters-container" id="clusters-section">
+
                 </div>
             </div>
         </div>
+
         <div class="grid-row">
             <div class="field">
                 <span class="field-label">Inspeção, Palpação e Observações Biomecânicas (Cinemática / PIMA /
@@ -153,34 +96,8 @@
 
         <!-- 4. DIAGNÓSTICO E PLANO -->
         <div class="section-header">4. Diagnóstico e Conduta Terapêutica</div>
+        <div id="diagnosis-section">
 
-        <div class="grid-row">
-            <div class="field w-20">
-                <span class="field-label">Código CBDF</span>
-                <input type="text" class="field-input" placeholder="Ex: F2.1.2">
-            </div>
-            <div class="field w-80">
-                <span class="field-label">Diagnóstico Fisioterapêutico (Descrição CIF/CBDF)</span>
-                <textarea class="field-input" oninput="autoResize(this)"></textarea>
-            </div>
-        </div>
-
-        <div class="grid-row">
-            <div class="field">
-                <span class="field-label">Exames Complementares Relatados / Prognóstico</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 40px;"></textarea>
-            </div>
-        </div>
-
-        <div class="grid-row">
-            <div class="field w-70">
-                <span class="field-label">Plano Terapêutico e Objetivos</span>
-                <textarea class="field-input" oninput="autoResize(this)" style="min-height: 60px;"></textarea>
-            </div>
-            <div class="field w-30">
-                <span class="field-label">Qtd. de Atendimentos Previstos</span>
-                <input type="text" class="field-input" placeholder="Ex: 10 sessões">
-            </div>
         </div>
 
         <!-- 5. ASSINATURAS -->

@@ -133,7 +133,6 @@ const vasFields = [
 const inspectionFields = [
     {
         id: 'inspection',
-        label: 'Inspeção Visual',
         type: 'textarea',
         width: 100
     }
@@ -260,6 +259,7 @@ const clusterFieldsNeuro = [
         ]
     }
 ];
+
 
 // criação dos inputs //
 function renderField(field) {
@@ -403,20 +403,38 @@ const secNeuro = document.getElementById('clustersNeuro-section');
 const secSpine = document.getElementById('clustersSpine-section');
 
 if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
+    // titulo da página //
+    document.querySelector('.titulo p').textContent = 'Membros Inferiores';
+    document.title = 'Avaliação MMII - Prontuário';
+    
     clusterFieldsMmii.forEach(function(cluster) {
         secMMII.appendChild(renderCluster(cluster));
     });
 } else if (secMMSS && typeof clusterFieldsMmss !== 'undefined') {
+    // titulo da página //
+    document.querySelector('.titulo p').textContent = 'Membros Superiores';
+    document.title = 'Avaliação MMSS - Prontuário';
+    
     clusterFieldsMmss.forEach(function(cluster) {
         secMMSS.appendChild(renderCluster(cluster));
     });
 } else if (secNeuro && typeof clusterFieldsNeuro !== 'undefined') {
+    // titulo da página //
+    document.querySelector('.titulo p').textContent = 'Neurofuncional';
+    document.title = 'Avaliação Neurofuncional - Prontuário';
+    
     clusterFieldsNeuro.forEach(function(cluster) {
         secNeuro.appendChild(renderCluster(cluster));
     });
 
 }else if (secSpine && typeof clusterFieldsSpine !== 'undefined') {
+    // titulo da página //
+    document.querySelector('.titulo p').textContent = 'Coluna Vertebral';
+    document.title = 'Avaliação Coluna Vertebral - Prontuário';
+    
     clusterFieldsSpine.forEach(function(cluster) {
         secSpine.appendChild(renderCluster(cluster));
     });
 }
+
+

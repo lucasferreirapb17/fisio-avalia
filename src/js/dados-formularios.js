@@ -57,7 +57,7 @@ const clinicHistoricFields = [
         width: 100
     },
     {id: 'medicalHistory',
-        label: 'Hiustória Pregressa e Atual da Doença (HDA)',
+        label: 'História Pregressa e Atual da Doença (HDA)',
         type: 'textarea',
         width: 100
     },
@@ -360,6 +360,8 @@ function renderCluster(cluster) {
         labelOption.appendChild(checkboxEl);
         labelOption.appendChild(textoTest);
         clusterWrapper.appendChild(labelOption);
+
+        checkboxEl.name = cluster.title;
     });
 
     return clusterWrapper;
@@ -438,3 +440,119 @@ if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
 }
 
 
+// coleta de dados para o pdf //
+
+
+function gerarPDFCompleto() {
+    const dadosId = collectData(identificationFields);
+    const dadosClinico = collectData(clinicHistoricFields);
+    const dadosVas = collectData(vasFields);
+    const dadosInspecao = collectData(inspectionFields);
+    const dadosDiagnostico = collectData(diagnosisFields);
+
+    const content = [];
+
+    content.push({ text: 'Avaliação Fisioterapêutica', fontSize: 20, bold: true, margin: [0, 0, 0, 10] });
+
+    content.push(...buildSection('1. Identificação do Paciente', identificationFields, dadosId));
+    content.push(...buildSection('2. Anamnese & História Clínica', clinicHistoricFields, dadosClinico));
+    content.push(...buildSection('3. Escala Visual Analógica (EVA)', vasFields, dadosVas));
+
+    // Reaproveita a mesma detecção de página que já escolhe o título (secMMII, secMMSS...)
+    let clusterFields = null;
+    let clusterTitulo = '';
+
+    if (secMMII) {
+        clusterFields = clusterFieldsMmii;
+        clusterTitulo = '3.1 Clusters Diagnósticos - Membros Inferiores';
+    } else if (secMMSS) {
+        clusterFields = clusterFieldsMmss;
+        clusterTitulo = '3.1 Clusters Diagnósticos - Membros Superiores';
+    } else if (secNeuro) {
+        clusterFields = clusterFieldsNeuro;
+        clusterTitulo = '3.1 Clusters Diagnósticos - Neurofuncional';
+    } else if (secSpine) {
+        clusterFields = clusterFieldsSpine;
+        clusterTitulo = '3.1 Clusters Diagnósticos - Coluna e Core';
+    }
+
+    if (clusterFields) {
+        const dadosCluster = collectClusterData(clusterFields);
+        content.push(...buildClusterSection(clusterTitulo, clusterFields, dadosCluster));
+    }
+
+    content.push(...buildSection('3.2 Inspeção e Observações', inspectionFields, dadosInspecao));
+    content.push(...buildSection('4. Diagnóstico e Conduta Terapêutica', diagnosisFields, dadosDiagnostico));
+
+    const docDefinition = { content: content };
+
+    pdfMake.createPdf(docDefinition).download('avaliacao-fisioterapeutica.pdf');
+}
+function collectData(fields) {
+    const data = {};
+    fields.forEach(function(field) {
+        if (field.type === 'radio') {
+            const radios = document.getElementsByName(field.id);
+            let valorMarcado = '';
+            radios.forEach(function(radio) {
+                if (radio.checked) {
+                    valorMarcado = radio.value;
+                }
+            });
+            data[field.id] = valorMarcado;
+        } else {
+            const element = document.getElementById(field.id);
+            data[field.id] = element.value;
+        }
+    });
+    return data;
+}
+
+function collectClusterData(clusterFields) {
+    const dataCluster = {};
+    clusterFields.forEach(function(cluster) {
+        const checkBoxs = document.getElementsByName(cluster.title);
+        let lista = [];
+        checkBoxs.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                lista.push(checkbox.value);
+            }
+        });
+        dataCluster[cluster.title] = lista;
+    });
+    return dataCluster;
+}
+
+function buildSection(titulo, fields, data) {
+    const itens = [];
+    itens.push({ text: titulo, fontSize: 14, bold: true, margin: [0, 10, 0, 5] });
+
+    fields.forEach(function(field) {
+        let valorExibido = data[field.id];
+
+        if (field.options) {
+            const opcaoEncontrada = field.options.find(function(opcao) {
+                return opcao.value === data[field.id];
+            });
+
+            if (opcaoEncontrada) {
+                valorExibido = opcaoEncontrada.text;
+            }
+        }
+
+        itens.push({ text: field.label + ': ' + valorExibido });
+    });
+
+    return itens;
+}
+
+function buildClusterSection(titulo, clusterFields, dataCluster) {
+    const itens = [];
+    itens.push({ text: titulo, fontSize: 14, bold: true, margin: [0, 10, 0, 5] });
+    clusterFields.forEach(function(cluster) {
+        itens.push({ text: cluster.title, bold: true, margin: [0, 8, 0, 2] });
+        const testesMarcados = dataCluster[cluster.title].join(', ') || 'Nenhum teste positivo';
+        itens.push({ text: testesMarcados });
+    });
+    return itens;
+}

@@ -484,7 +484,39 @@ function gerarPDFCompleto() {
     content.push(...buildSection('3.2 Inspeção e Observações', inspectionFields, dadosInspecao));
     content.push(...buildSection('4. Diagnóstico e Conduta Terapêutica', diagnosisFields, dadosDiagnostico));
 
-    const docDefinition = { content: content };
+    const localData = document.getElementById('localDataAssinatura').value;
+
+    const assinaturas = {
+        columns: [
+            { text: '_______________________\nFisioterapeuta Responsável\nNº de Inscrição no CREFITO', fontSize: 10 },
+            { text: '_______________________\nPaciente ou Responsável Legal\nLocal e Data: ' + localData, fontSize: 10 }
+        ],
+        margin: [0, 30, 0, 0]
+    };
+
+    content.push(assinaturas);
+
+    const docDefinition = { 
+        header: function(currentPage, pageCount) {
+            return {
+                text: 'Avaliação Fisioterapêutica - Res. COFFITO nº 414/2012',
+                fontSize: 9,
+                margin: [40, 20, 40, 0]
+            };
+        },
+        
+        footer: function(currentPage, pageCount) {
+            return {
+                text: 'Página ' + currentPage + ' de ' + pageCount,
+                alignment: 'center',
+                fontSize: 8,
+                margin: [0, 10, 0, 0]
+            };
+        },
+        
+        content: content
+    };
+     
 
     pdfMake.createPdf(docDefinition).download('avaliacao-fisioterapeutica.pdf');
 }

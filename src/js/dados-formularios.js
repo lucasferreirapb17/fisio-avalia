@@ -395,11 +395,28 @@ inspectionFields.forEach(function(field){
     document.getElementById('inspection-section').appendChild(element);
 });
 
-// imprime clusters
+// imprime clusters //
+    // cluster MMII //
 const secMMII = document.getElementById('clustersMmii-section');
+const secMMSS = document.getElementById('clustersMmss-section');
+const secNeuro = document.getElementById('clustersNeuro-section');
+const secSpine = document.getElementById('clustersSpine-section');
+
 if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
     clusterFieldsMmii.forEach(function(cluster) {
         secMMII.appendChild(renderCluster(cluster));
     });
-}
+} else if (secMMSS && typeof clusterFieldsMmss !== 'undefined') {
+    clusterFieldsMmss.forEach(function(cluster) {
+        secMMSS.appendChild(renderCluster(cluster));
+    });
+} else if (secNeuro && typeof clusterFieldsNeuro !== 'undefined') {
+    clusterFieldsNeuro.forEach(function(cluster) {
+        secNeuro.appendChild(renderCluster(cluster));
+    });
 
+}else if (secSpine && typeof clusterFieldsSpine !== 'undefined') {
+    clusterFieldsSpine.forEach(function(cluster) {
+        secSpine.appendChild(renderCluster(cluster));
+    });
+}

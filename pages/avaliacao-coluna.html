@@ -7,7 +7,8 @@
     <title>Prontuário de Alta Performance</title>
 
     <!-- Biblioteca para gerar o PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.js"></script>
 
     <!-- Fonte Moderna -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -24,7 +25,7 @@
         ← Voltar para o início
     </a>
 
-    <button class="btn-imprimir" onclick="gerarPDF('avaliacao-mmii.pdf')">
+    <button class="btn-imprimir" onclick="gerarPDFCompleto()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z" />
@@ -33,17 +34,12 @@
     </button>
 
     <div class="acoes-rascunho">
-        <button type="button" class="btn-rascunho" onclick="salvarRascunho('rascunho-spine')">
-            Salvar Rascunho
-        </button>
-        <button type="button" class="btn-rascunho" onclick="carregarRascunho('rascunho-spine')">
-            Carregar Rascunho
-        </button>
-        <button type="button" class="btn-racunho btn-perigo" onclick="limparRascunho('rascunho-spine')">
+        <button type="reset" form="ficha-form" class="btn-rascunho">
             Limpar Rascunho
         </button>
     </div>
 
+    <form id="ficha-form">
     <div id="folha-prontuario">
 
         <div class="cabecalho-doc">
@@ -115,13 +111,14 @@
                 <div class="linha-ass"></div>
                 <div class="assinatura-texto">
                     <strong>Paciente ou Responsável Legal</strong><br>
-                    Local e Data: <input type="text" class="field-input"
+                    Local e Data: <input type="text" id="localData" class="field-input"
                         style="width: 150px; display: inline-block; padding: 2px 5px; min-height: 20px; background: transparent; border-bottom: 1px solid var(--border); border-radius: 0;">
                 </div>
             </div>
         </div>
 
-    </div> <!-- Fim folha-prontuario -->
+    </div> 
+    </form>
 
     <!-- Scripts JS -->
     <script src="../src/js/form-utils.js"></script>

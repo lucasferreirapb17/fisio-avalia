@@ -367,159 +367,172 @@ function renderCluster(cluster) {
     return clusterWrapper;
 }
 
-// imprime os inputs nos campos de identificação
-identificationFields.forEach(function(field){
-    const element = renderField(field);
-    document.getElementById('identification-section').appendChild(element);
-});
-
-// imprime os inputs nos campos de anamnese
-clinicHistoricFields.forEach(function(field){
-    const element = renderField(field);
-    document.getElementById('clinicHistoric-section').appendChild(element);
-});
-
-// imprime campos de diagnóstico e conduta terapêutica
-diagnosisFields.forEach(function(field){
-    const element = renderField(field);
-    document.getElementById('diagnosis-section').appendChild(element);
-});
-
-// imprime escala EVA
-vasFields.forEach(function(field){
-    const element = renderField(field);
-    document.getElementById('vas-section').appendChild(element);
-});
-
-// imprime campos de exame físico
-inspectionFields.forEach(function(field){
-    const element = renderField(field);
-    document.getElementById('inspection-section').appendChild(element);
-});
-
-// imprime clusters //
-    // cluster MMII //
+// imprime os inputs nos campos de identificação //
+// Elementos de detecção de página (globais — usados tanto pra renderizar quanto pro PDF)
 const secMMII = document.getElementById('clustersMmii-section');
 const secMMSS = document.getElementById('clustersMmss-section');
 const secNeuro = document.getElementById('clustersNeuro-section');
 const secSpine = document.getElementById('clustersSpine-section');
 
-if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
-    // titulo da página //
-    document.querySelector('.titulo p').textContent = 'Membros Inferiores';
-    document.title = 'Avaliação MMII - Prontuário';
-    
-    clusterFieldsMmii.forEach(function(cluster) {
-        secMMII.appendChild(renderCluster(cluster));
-    });
-} else if (secMMSS && typeof clusterFieldsMmss !== 'undefined') {
-    // titulo da página //
-    document.querySelector('.titulo p').textContent = 'Membros Superiores';
-    document.title = 'Avaliação MMSS - Prontuário';
-    
-    clusterFieldsMmss.forEach(function(cluster) {
-        secMMSS.appendChild(renderCluster(cluster));
-    });
-} else if (secNeuro && typeof clusterFieldsNeuro !== 'undefined') {
-    // titulo da página //
-    document.querySelector('.titulo p').textContent = 'Neurofuncional';
-    document.title = 'Avaliação Neurofuncional - Prontuário';
-    
-    clusterFieldsNeuro.forEach(function(cluster) {
-        secNeuro.appendChild(renderCluster(cluster));
+function renderizarFichaNaTela() {
+    // imprime os inputs nos campos de identificação
+    identificationFields.forEach(function(field){
+        const element = renderField(field);
+        document.getElementById('identification-section').appendChild(element);
     });
 
-}else if (secSpine && typeof clusterFieldsSpine !== 'undefined') {
-    // titulo da página //
-    document.querySelector('.titulo p').textContent = 'Coluna Vertebral';
-    document.title = 'Avaliação Coluna Vertebral - Prontuário';
-    
-    clusterFieldsSpine.forEach(function(cluster) {
-        secSpine.appendChild(renderCluster(cluster));
+    // imprime os inputs nos campos de anamnese
+    clinicHistoricFields.forEach(function(field){
+        const element = renderField(field);
+        document.getElementById('clinicHistoric-section').appendChild(element);
     });
+
+    // imprime campos de diagnóstico e conduta terapêutica
+    diagnosisFields.forEach(function(field){
+        const element = renderField(field);
+        document.getElementById('diagnosis-section').appendChild(element);
+    });
+
+    // imprime escala EVA
+    vasFields.forEach(function(field){
+        const element = renderField(field);
+        document.getElementById('vas-section').appendChild(element);
+    });
+
+    // imprime campos de exame físico
+    inspectionFields.forEach(function(field){
+        const element = renderField(field);
+        document.getElementById('inspection-section').appendChild(element);
+    });
+
+    // imprime clusters (secMMII, secMMSS, secNeuro, secSpine já existem, declarados lá em cima)
+    if (secMMII && typeof clusterFieldsMmii !== 'undefined') {
+        document.querySelector('.titulo p').textContent = 'Membros Inferiores';
+        document.title = 'Avaliação MMII - Prontuário';
+
+        clusterFieldsMmii.forEach(function(cluster) {
+            secMMII.appendChild(renderCluster(cluster));
+        });
+    } else if (secMMSS && typeof clusterFieldsMmss !== 'undefined') {
+        document.querySelector('.titulo p').textContent = 'Membros Superiores';
+        document.title = 'Avaliação MMSS - Prontuário';
+
+        clusterFieldsMmss.forEach(function(cluster) {
+            secMMSS.appendChild(renderCluster(cluster));
+        });
+    } else if (secNeuro && typeof clusterFieldsNeuro !== 'undefined') {
+        document.querySelector('.titulo p').textContent = 'Neurofuncional';
+        document.title = 'Avaliação Neurofuncional - Prontuário';
+
+        clusterFieldsNeuro.forEach(function(cluster) {
+            secNeuro.appendChild(renderCluster(cluster));
+        });
+    } else if (secSpine && typeof clusterFieldsSpine !== 'undefined') {
+        document.querySelector('.titulo p').textContent = 'Coluna Vertebral';
+        document.title = 'Avaliação Coluna Vertebral - Prontuário';
+
+        clusterFieldsSpine.forEach(function(cluster) {
+            secSpine.appendChild(renderCluster(cluster));
+        });
+    }
 }
 
-
+if (document.getElementById('folha-prontuario')) {
+    renderizarFichaNaTela();
+}
 // coleta de dados para o pdf //
 
 
-function gerarPDFCompleto() {
-    const dadosId = collectData(identificationFields);
-    const dadosClinico = collectData(clinicHistoricFields);
-    const dadosVas = collectData(vasFields);
-    const dadosInspecao = collectData(inspectionFields);
-    const dadosDiagnostico = collectData(diagnosisFields);
-
+function montarEGerarPDF(dados) {
     const content = [];
 
     content.push({ text: 'Avaliação Fisioterapêutica', fontSize: 20, bold: true, margin: [0, 0, 0, 10] });
 
-    content.push(...buildSection('1. Identificação do Paciente', identificationFields, dadosId));
-    content.push(...buildSection('2. Anamnese & História Clínica', clinicHistoricFields, dadosClinico));
-    content.push(...buildSection('3. Escala Visual Analógica (EVA)', vasFields, dadosVas));
+    content.push(...buildSection('1. Identificação do Paciente', identificationFields, dados.identification));
+    content.push(...buildSection('2. Anamnese & História Clínica', clinicHistoricFields, dados.clinicHistoric));
+    content.push(...buildSection('3. Escala Visual Analógica (EVA)', vasFields, dados.vas));
 
-    // Reaproveita a mesma detecção de página que já escolhe o título (secMMII, secMMSS...)
-    let clusterFields = null;
-    let clusterTitulo = '';
-
-    if (secMMII) {
-        clusterFields = clusterFieldsMmii;
-        clusterTitulo = '3.1 Clusters Diagnósticos - Membros Inferiores';
-    } else if (secMMSS) {
-        clusterFields = clusterFieldsMmss;
-        clusterTitulo = '3.1 Clusters Diagnósticos - Membros Superiores';
-    } else if (secNeuro) {
-        clusterFields = clusterFieldsNeuro;
-        clusterTitulo = '3.1 Clusters Diagnósticos - Neurofuncional';
-    } else if (secSpine) {
-        clusterFields = clusterFieldsSpine;
-        clusterTitulo = '3.1 Clusters Diagnósticos - Coluna e Core';
+    if (dados.clusterFields) {
+        content.push(...buildClusterSection(dados.clusterTitulo, dados.clusterFields, dados.clusterData));
     }
 
-    if (clusterFields) {
-        const dadosCluster = collectClusterData(clusterFields);
-        content.push(...buildClusterSection(clusterTitulo, clusterFields, dadosCluster));
-    }
+    content.push(...buildSection('3.2 Inspeção e Observações', inspectionFields, dados.inspection));
+    content.push(...buildSection('4. Diagnóstico e Conduta Terapêutica', diagnosisFields, dados.diagnosis));
 
-    content.push(...buildSection('3.2 Inspeção e Observações', inspectionFields, dadosInspecao));
-    content.push(...buildSection('4. Diagnóstico e Conduta Terapêutica', diagnosisFields, dadosDiagnostico));
-
-    const localData = document.getElementById('localDataAssinatura').value;
-
-    const assinaturas = {
+    content.push({
         columns: [
             { text: '_______________________\nFisioterapeuta Responsável\nNº de Inscrição no CREFITO', fontSize: 10 },
-            { text: '_______________________\nPaciente ou Responsável Legal\nLocal e Data: ' + localData, fontSize: 10 }
+            { text: '_______________________\nPaciente ou Responsável Legal\nLocal e Data: ' + (dados.localData || ''), fontSize: 10 }
         ],
         margin: [0, 30, 0, 0]
-    };
+    });
 
-    content.push(assinaturas);
-
-    const docDefinition = { 
-        header: function(currentPage, pageCount) {
-            return {
-                text: 'Avaliação Fisioterapêutica - Res. COFFITO nº 414/2012',
-                fontSize: 9,
-                margin: [40, 20, 40, 0]
-            };
+    const docDefinition = {
+        header: function() {
+            return { text: 'Avaliação Fisioterapêutica - Res. COFFITO nº 414/2012', fontSize: 9, margin: [40, 20, 40, 0] };
         },
-        
         footer: function(currentPage, pageCount) {
-            return {
-                text: 'Página ' + currentPage + ' de ' + pageCount,
-                alignment: 'center',
-                fontSize: 8,
-                margin: [0, 10, 0, 0]
-            };
+            return { text: 'Página ' + currentPage + ' de ' + pageCount, alignment: 'center', fontSize: 8, margin: [0, 10, 0, 0] };
         },
-        
         content: content
     };
-     
 
-    pdfMake.createPdf(docDefinition).download('avaliacao-fisioterapeutica.pdf');
+    pdfMake.createPdf(docDefinition).download((dados.nomePaciente || 'avaliacao') + '.pdf');
 }
+
+function salvarAvaliacao(dados) {
+    const listaSalva = localStorage.getItem('avaliacoesSalvas');
+    const lista = listaSalva ? JSON.parse(listaSalva) : [];
+
+    const registro = {
+        id: Date.now(),
+        nomePaciente: dados.nomePaciente || 'Paciente sem nome',
+        tipoFicha: dados.clusterTitulo || 'Avaliação',
+        data: new Date().toLocaleDateString('pt-BR'),
+        dados: dados
+    };
+
+    lista.push(registro);
+
+    localStorage.setItem('avaliacoesSalvas', JSON.stringify(lista));
+
+    alert('Avaliação salva com sucesso!');
+}
+
+function gerarPDFCompleto() {
+    const dados = {
+        identification: collectData(identificationFields),
+        clinicHistoric: collectData(clinicHistoricFields),
+        vas: collectData(vasFields),
+        diagnosis: collectData(diagnosisFields),
+        inspection: collectData(inspectionFields),
+        localData: document.getElementById('localData').value
+    };
+
+    if (secMMII) {
+        dados.clusterFields = clusterFieldsMmii;
+        dados.clusterTitulo = '3.1 Clusters Diagnósticos - Membros Inferiores';
+        dados.clusterData = collectClusterData(clusterFieldsMmii);
+    } else if (secMMSS) {
+        dados.clusterFields = clusterFieldsMmss;
+        dados.clusterTitulo = '3.1 Clusters Diagnósticos - Membros Superiores';
+        dados.clusterData = collectClusterData(clusterFieldsMmss);
+    } else if (secNeuro) {
+        dados.clusterFields = clusterFieldsNeuro;
+        dados.clusterTitulo = '3.1 Clusters Diagnósticos - Neurofuncional';
+        dados.clusterData = collectClusterData(clusterFieldsNeuro);
+    } else if (secSpine) {
+        dados.clusterFields = clusterFieldsSpine;
+        dados.clusterTitulo = '3.1 Clusters Diagnósticos - Coluna e Core';
+        dados.clusterData = collectClusterData(clusterFieldsSpine);
+    }
+
+    dados.nomePaciente = dados.identification.name;
+
+    salvarAvaliacao(dados);
+    montarEGerarPDF(dados);
+}
+
 function collectData(fields) {
     const data = {};
     fields.forEach(function(field) {
@@ -587,4 +600,47 @@ function buildClusterSection(titulo, clusterFields, dataCluster) {
         itens.push({ text: testesMarcados });
     });
     return itens;
+}
+
+
+// reimprimir avaliações //
+
+function carregarAvaliacoesSalvas() {
+    const listaSalva = localStorage.getItem('avaliacoesSalvas');
+    const lista = listaSalva ? JSON.parse(listaSalva) : [];
+
+    const container = document.getElementById('lista-avaliacoes');
+    container.innerHTML = '';
+
+    if (lista.length === 0) {
+        container.innerHTML = '<p class="recent-empty">Nenhuma avaliação salva ainda.</p>';
+        return;
+    }
+
+    lista.forEach(function(registro) {
+        const card = document.createElement('div');
+        card.className = 'recent-card';
+
+        const nome = document.createElement('strong');
+        nome.textContent = registro.nomePaciente;
+
+        const info = document.createElement('span');
+        info.textContent = registro.tipoFicha + ' — ' + registro.data;
+
+        const btnReimprimir = document.createElement('button');
+        btnReimprimir.textContent = 'Reimprimir';
+        btnReimprimir.className = 'btn-reimprimir';
+        btnReimprimir.addEventListener('click', function() {
+            montarEGerarPDF(registro.dados);
+        });
+
+        card.appendChild(nome);
+        card.appendChild(info);
+        card.appendChild(btnReimprimir);
+        container.appendChild(card);
+    });
+}
+
+if (document.getElementById('lista-avaliacoes')) {
+    carregarAvaliacoesSalvas();
 }

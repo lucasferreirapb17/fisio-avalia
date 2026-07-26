@@ -6,50 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physio Hub - Avaliação de Alta Performance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Spectral:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.js"></script>
+    <script src="./src/js/dados-formularios.js" defer></script>
+
     <link rel="stylesheet" href="./src/css/global.css">
     <link rel="stylesheet" href="./src/css/home.css">
 
 </head>
 
 <body>
-<body>
 
     <main class="home-container">
-
         <section class="hero">
-            <span class="hero-badge">Projeto Front-end • Fisioterapia • Portfólio</span>
+            <span class="hero-badge">Res. COFFITO nº 414/2012</span>
 
             <h1>FisioAvalia</h1>
 
             <p class="hero-description">
-                Sistema web para criação de avaliações fisioterapêuticas e geração de relatórios em PDF.
+                Preencha a avaliação, gere o prontuário em PDF e mantenha o histórico do paciente em um só lugar.
             </p>
 
             <div class="hero-actions">
-                <a href="#avaliacoes" class="btn-primary">Iniciar avaliação</a>
-                <a href="#funcionalidades" class="btn-secondary">Ver funcionalidades</a>
+                <a href="#avaliacoes" class="btn-primary">Nova avaliação</a>
             </div>
         </section>
 
-        <section class="info-grid" id="funcionalidades">
-
-            <div class="info-card">
-                <strong>4</strong>
-                <span>Modelos de avaliação</span>
+        <section class="recent-section" id="recentes">
+            <h2>Avaliações Recentes</h2>
+            <div id="lista-avaliacoes">
+                <p class="recent-empty">Nenhuma avaliação salva ainda.</p>
             </div>
-
-            <div class="info-card">
-                <strong>PDF</strong>
-                <span>Geração de relatório</span>
-            </div>
-
-            <div class="info-card">
-                <strong>JS</strong>
-                <span>Projeto com JavaScript</span>
-            </div>
-
         </section>
 
         <section class="section-title" id="avaliacoes">
@@ -108,20 +97,18 @@
         </section>
 
         <section class="notice">
-            <h2>Uso educacional e portfólio</h2>
+            <h2>Antes de começar</h2>
             <p>
-                Este projeto foi desenvolvido para estudo de front-end e apresentação em portfólio.
-                Não utilize dados reais de pacientes durante testes ou demonstrações públicas.
+                Os dados preenchidos ficam salvos neste navegador até você gerar o PDF ou salvar a avaliação.
+                Evite usar computadores compartilhados para preencher informações de pacientes.
             </p>
         </section>
 
     </main>
 
     <footer class="footer">
-        <p>FisioAvalia • Desenvolvido como projeto de aprendizado em HTML, CSS, JavaScript e GitHub</p>
+        <p>FisioAvalia — Sistema de avaliação e prontuário fisioterapêutico</p>
     </footer>
 
 </body>
-</body>
-
 </html>
